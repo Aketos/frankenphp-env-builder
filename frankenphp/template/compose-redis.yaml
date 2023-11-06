@@ -1,0 +1,3 @@
+  redis:
+    container_name: %APP%-redis
+    image: redis

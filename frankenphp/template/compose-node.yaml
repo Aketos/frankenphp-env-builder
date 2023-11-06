@@ -1,0 +1,6 @@
+  node:
+    container_name: %APP%-node
+    image: node
+    tty: true
+    volumes:
+        - .:/var/www

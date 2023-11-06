@@ -1,0 +1,8 @@
+  database:
+    container_name: %APP%-database
+    restart: always
+    build: docker/postgresql
+    volumes:
+      - ../../data/%APP%/psql:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"

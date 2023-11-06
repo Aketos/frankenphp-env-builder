@@ -1,0 +1,30 @@
+  php:
+    container_name: %APP%-php
+    extends:
+      file: %RELATIVE_PATH%/compose.yaml
+      service: php
+    build:
+      context: %RELATIVE_PATH%
+      target: frankenphp_dev
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./:/app/%APP%/
+      - %RELATIVE_PATH%/frankenphp/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - %RELATIVE_PATH%/frankenphp/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
+      # If you develop on Mac or Windows you can remove the vendor/ directory
+      #  from the bind-mount for better performance by enabling the next line:
+      #- /app/vendor
+    environment:
+      APP_NAME: %APP%
+      MERCURE_EXTRA_DIRECTIVES: demo
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: %APP%
+      DATABASE_URL: postgresql://docker:docker@%APP%-database:5432/%APP%?serverVersion=${POSTGRES_VERSION:-15}&charset=${POSTGRES_CHARSET:-utf8}
+      # See https://xdebug.org/docs/all_settings#mode
+      XDEBUG_MODE: "${XDEBUG_MODE:-off}"
+    extra_hosts:
+      # Ensure that host.docker.internal is correctly defined on Linux
+      - host.docker.internal:host-gateway
+    tty: true

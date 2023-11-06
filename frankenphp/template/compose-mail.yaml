@@ -1,0 +1,5 @@
+  mail:
+    container_name: %APP%-mail
+    extends:
+      file: %RELATIVE_PATH%/compose.yaml
+      service: mail
