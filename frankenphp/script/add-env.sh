@@ -6,9 +6,11 @@ sed -e "s;%APP%;${app};g" frankenphp/template/caddy > frankenphp/caddy/${app}.ca
 echo "> New Caddy configuration created for server ${app}.dev.localhost"
 
 echo "--- Please enter the app local path:"
-read -e -i "../" path
+read -e -i "$HOME/" path
+path=$(echo "$path" | sed 's/\/$//')
 
 containers_options=("database" "node" "mail" "redis")
+containers_with_volume=("database")
 
 cat frankenphp/template/compose-header.yaml frankenphp/template/compose-php.yaml > ${path}/compose.yaml
 
@@ -23,6 +25,12 @@ for str in "${containers_options[@]}"; do
         case $choice in
             "Yes")
                 cat frankenphp/template/compose-"$str".yaml >> ${path}/compose.yaml
+                if [[ " ${containers_with_volume[*]} "  =~ " $str " ]]; then
+                    echo "--- Please enter the volume path for this container:"
+                    read -e -i "$HOME/" volume
+                    relative_volume_path="$(realpath --relative-to="$volume" "$(realpath .)")"
+                    sed -e "s;%VOLUME%;${relative_volume_path};g" ${path}/compose.yaml
+                fi
                 break
                 ;;
             "No")
