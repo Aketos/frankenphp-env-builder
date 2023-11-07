@@ -18,18 +18,18 @@ relative_path="$(realpath --relative-to="$path" "$(realpath .)")"
 
 #sed -i  ${path}/compose.yaml
 
-for str in "${containers_options[@]}"; do
-    echo "--- Do you want a \"$str\" container (press 1 or 2)?"
+for container in "${containers_options[@]}"; do
+    echo "--- Do you want a \"$container\" container (press 1 or 2)?"
 
     select choice in "Yes" "No"; do
         case $choice in
             "Yes")
-                cat frankenphp/template/compose-"$str".yaml >> ${path}/compose.yaml
-                if [[ " ${containers_with_volume[*]} "  =~ " $str " ]]; then
+                cat frankenphp/template/compose-"$container".yaml >> ${path}/compose.yaml
+                if [[ " ${containers_with_volume[*]} "  =~ " $container " ]]; then
                     echo "--- Please enter the volume path for this container:"
                     read -e -i "$HOME/" volume
                     relative_volume_path="$(realpath --relative-to="$volume" "$(realpath .)")"
-                    sed -e "s;%VOLUME%;${relative_volume_path};g" ${path}/compose.yaml
+                    sed -i -e "s;%VOLUME%;${relative_volume_path};g" ${path}/compose.yaml
                 fi
                 break
                 ;;
