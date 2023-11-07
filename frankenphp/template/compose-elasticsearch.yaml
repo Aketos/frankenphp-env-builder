@@ -1,0 +1,5 @@
+elasticsearch:
+    container_name: %APP%-elasticsearch
+    image: elasticsearch:5.6
+    volumes:
+        - .:/var/www
