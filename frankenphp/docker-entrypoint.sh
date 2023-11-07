@@ -4,8 +4,16 @@ set -e
 cd $APP_NAME
 
 if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
-  composer require --dev runtime/frankenphp-symfony
-  composer config --json extra.symfony.docker 'true'
+  if [ -f "composer.json" ]; then
+      # Utilise jq pour rechercher le package dans composer.json
+      if jq -e ".require_dev.\"runtime/frankenphp-symfony\"" "composer.json" > /dev/null 2>&1; then
+           composer require --dev runtime/frankenphp-symfony
+           composer config --json extra.symfony.docker 'true'
+      fi
+  else
+      exit 1
+  fi
+
 	# Install the project the first time PHP is started
 	# After the installation, the following block can be deleted
 #	if [ ! -f composer.json ]; then

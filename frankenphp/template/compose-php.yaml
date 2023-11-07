@@ -15,9 +15,6 @@
     environment:
       APP_NAME: %APP%
       MERCURE_EXTRA_DIRECTIVES: demo
-      POSTGRES_USER: docker
-      POSTGRES_PASSWORD: docker
-      POSTGRES_DB: %APP%
       DATABASE_URL: postgresql://docker:docker@%APP%-database:5432/%APP%?serverVersion=${POSTGRES_VERSION:-15}&charset=${POSTGRES_CHARSET:-utf8}
       # See https://xdebug.org/docs/all_settings#mode
       XDEBUG_MODE: "${XDEBUG_MODE:-off}"

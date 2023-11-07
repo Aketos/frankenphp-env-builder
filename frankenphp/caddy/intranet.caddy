@@ -11,7 +11,7 @@ intranet.dev.localhost {
 		}
 	}
 
-	root * /app/intranet/web
+	root * /app/intranet/public
 	encode zstd gzip
 
 	mercure {

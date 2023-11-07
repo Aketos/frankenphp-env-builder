@@ -1,7 +1,11 @@
   database:
     container_name: %APP%-database
     restart: always
-    build: docker/postgresql
+    image: postgres:9.5
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: %APP%
     volumes:
       - %VOLUME%/%APP%/psql:/var/lib/postgresql/data
     ports:

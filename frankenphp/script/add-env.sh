@@ -28,7 +28,7 @@ for container in "${containers_options[@]}"; do
                 if [[ " ${containers_with_volume[*]} "  =~ " $container " ]]; then
                     echo "--- Please enter the volume path for this container:"
                     read -e -i "$HOME/" volume
-                    relative_volume_path="$(realpath --relative-to="$volume" "$(realpath .)")"
+                    relative_volume_path="$(realpath --relative-to="$(realpath .)" "$volume")"
                     sed -i -e "s;%VOLUME%;${relative_volume_path};g" ${path}/compose.yaml
                 fi
                 break
