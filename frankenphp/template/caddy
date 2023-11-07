@@ -11,7 +11,7 @@
 		}
 	}
 
-	root * /app/%APP%/web
+	root * /app/%APP%/public
 	encode zstd gzip
 
 	mercure {
