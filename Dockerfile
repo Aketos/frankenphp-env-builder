@@ -13,10 +13,10 @@ FROM composer/composer:2-bin AS composer_upstream
 # Base FrankenPHP image
 FROM frankenphp_upstream AS frankenphp_base
 
-WORKDIR /app
+ARG WORKDIR
+WORKDIR $WORKDIR
 
 # persistent / runtime deps
-# hadolint ignore=DL3018
 RUN apk add --no-cache \
 		acl \
 		file \
@@ -35,10 +35,6 @@ RUN set -eux; \
 		opcache \
 		zip \
 	;
-
-#RUN apk add --no-cache rabbitmq-c rabbitmq-c-dev $PHPIZE_DEPS \
-#      && pecl install amqp \
-#      && docker-php-ext-enable amqp \
 
 ###> recipes ###
 ###< recipes ###

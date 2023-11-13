@@ -1,17 +1,15 @@
 #!/bin/sh
 set -e
 
-cd $APP_NAME
-
 if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
   # Install runtime/frankenphp-symfony as dev dependency if not present
   if [ -f "composer.json" ]; then
-      if ! jq -e ".require_dev.\"runtime/frankenphp-symfony\"" "composer.json" > /dev/null 2>&1; then
+      if ! jq -e ".require-dev.\"runtime/frankenphp-symfony\"" "composer.json" > /dev/null 2>&1; then
            composer require --dev runtime/frankenphp-symfony
            composer config --json extra.symfony.docker 'true'
       fi
   else
-      exit 1
+      exit 0
   fi
 
   # Install vendors if not already done

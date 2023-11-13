@@ -16,8 +16,6 @@ cat frankenphp/template/compose-header.yaml frankenphp/template/compose-php.yaml
 
 relative_path="$(realpath --relative-to="$path" "$(realpath .)")"
 
-#sed -i  ${path}/compose.yaml
-
 for container in "${containers_options[@]}"; do
     echo "--- Do you want a \"$container\" container (press 1 or 2)?"
 
@@ -45,3 +43,6 @@ done
 
 cat frankenphp/template/compose-footer.yaml >> ${path}/compose.yaml
 sed -i -e "s;%APP%;${app};g" -e "s;%RELATIVE_PATH%;${relative_path};g" ${path}/compose.yaml
+
+cat frankenphp/template/Makefile >> ${path}/Makefile
+sed -i -e "s;%APP%;${app};g" ${path}/Makefile
